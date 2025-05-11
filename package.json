@@ -1,0 +1,31 @@
+{
+    "name": "notion-mcp-server",
+    "version": "1.0.0",
+    "main": "index.js",
+    "type": "module",
+    "bin": {
+        "notion-mcp-server": "./build/index.js"
+    },
+    "scripts": {
+        "build": "tsc",
+        "start": "node build/index.js",
+        "dev": "npx tsx src/index.ts"
+    },
+    "files": [
+        "build"
+    ],
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "description": "",
+    "devDependencies": {
+        "@types/express": "^5.0.1",
+        "@types/node": "^22.10.0",
+        "typescript": "^5.7.2"
+    },
+    "dependencies": {
+        "@modelcontextprotocol/sdk": "^1.11.1",
+        "dotenv": "^16.5.0",
+        "zod": "^3.24.4"
+    }
+}

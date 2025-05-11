@@ -1,0 +1,14 @@
+services:
+  notion-mcp-server:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    volumes:
+      - .:/app
+      - /app/node_modules
+    env_file:
+      - .env
+    restart: unless-stopped
+    command: node build/index.js
