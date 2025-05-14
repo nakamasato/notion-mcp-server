@@ -32,7 +32,7 @@ You can quickly get started with the pre-built Docker image:
 
 2. Run the Docker container:
    ```bash
-   docker run -p 3000:3000 --env-file .env nakamasato/notion-mcp-server:0.1.0
+   docker run -p 3000:3000 --env-file .env nakamasato/notion-mcp-server:0.1.1
    ```
 
 3. Configure your MCP client to connect to the server:
