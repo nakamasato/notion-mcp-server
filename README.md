@@ -1,7 +1,7 @@
 # Notion MCP Server
 
 > [!NOTE]
-> For local usage with Cursor, Claude Desktop, etc, it's better to use [Official Notion MCP server](https://github.com/makenotion/notion-mcp-server). But as of May 2025,  doesn't support SSE and streamable HTTP at the moment. This repo is to provide notion-mcp-server with SSE and streamable HTTP.
+> For local usage with Cursor, Claude Desktop, etc, it's better to use [Official Notion MCP server](https://github.com/makenotion/notion-mcp-server). But as of May 2025, it doesn't support SSE and streamable HTTP at the moment. This repo is to provide notion-mcp-server with SSE and streamable HTTP.
 
 This project implements a Model Context Protocol (MCP) server for the Notion API supporting both Server-Sent Events (SSE) and Streamable HTTP transport mechanisms. It allows AI assistants and other applications to interact with Notion workspaces in a standardized way.
 
