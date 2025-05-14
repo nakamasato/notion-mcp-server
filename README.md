@@ -114,15 +114,60 @@ The server will automatically restart unless explicitly stopped.
 
 ## Client Configuration
 
-For detailed client configuration examples, please see the [client-config-example.md](client-config-example.md) file, which includes setup instructions for:
+### Cursor
 
-- Claude Desktop
-- Cursor AI
-- Cline
-- Zed
-- MCP Inspector
-- Curl examples
 
+Set `.cursor/mcp.json`
+
+```json
+{
+   "mcpServers": {
+      "notion": {
+         "url": "http://localhost:3000/sse"
+      }
+   }
+}
+```
+
+![](docs/cursor-mcp.png)
+
+### Python
+
+```py
+import asyncio
+from mcp import ClientSession
+from mcp.client.sse import sse_client
+
+
+async def list_tools_with_sse():
+
+    async with sse_client(url="http://localhost:3000/sse", timeout=10, sse_read_timeout=10) as (read_stream, write_stream):
+
+        async with ClientSession(read_stream, write_stream) as session:
+            await session.initialize()
+
+            tools = await session.list_tools()
+
+            print(f"Available tools ({len(tools.tools)}):")
+            for tool in tools.tools:
+                print(f"- name: {tool.name}, description: {tool.description}, schema: {tool.inputSchema}")
+
+
+if __name__ == "__main__":
+    asyncio.run(list_tools_with_sse())
+```
+
+```
+uv run python tools/mcp_client.py
+Available tools (5):
+- name: notion_retrieve_page, description: Retrieves a Notion page by its ID, schema: {'type': 'object', 'properties': {'page_id': {'type': 'string', 'description': 'The ID of the page to retrieve'}}, 'required': ['page_id'], 'additionalProperties': False, '$schema': 'http://json-schema.org/draft-07/schema#'}
+- name: notion_search, description: Searches for pages in Notion, schema: {'type': 'object', 'properties': {'query': {'type': 'string', 'description': 'The search query'}, 'filter': {'type': 'object', 'properties': {}, 'additionalProperties': False, 'description': 'Optional filter for search results'}, 'sort': {'type': 'object', 'properties': {}, 'additionalProperties': False, 'description': 'Optional sort for search results'}}, 'required': ['query'], 'additionalProperties': False, '$schema': 'http://json-schema.org/draft-07/schema#'}
+- name: notion_create_page, description: Creates a new page in Notion, schema: {'type': 'object', 'properties': {'parent': {'type': 'object', 'properties': {}, 'additionalProperties': False, 'description': 'The parent of the page'}, 'properties': {'type': 'object', 'properties': {}, 'additionalProperties': False, 'description': 'The properties of the page'}, 'children': {'type': 'array', 'description': 'The content of the page'}}, 'required': ['parent'], 'additionalProperties': False, '$schema': 'http://json-schema.org/draft-07/schema#'}
+- name: notion_update_page, description: Updates a page in Notion, schema: {'type': 'object', 'properties': {'page_id': {'type': 'string', 'description': 'The ID of the page to update'}, 'properties': {'type': 'object', 'properties': {}, 'additionalProperties': False, 'description': 'The properties to update'}}, 'required': ['page_id', 'properties'], 'additionalProperties': False, '$schema': 'http://json-schema.org/draft-07/schema#'}
+- name: notion_create_comment, description: Creates a comment in Notion, schema: {'type': 'object', 'properties': {'parent': {'type': 'object', 'properties': {}, 'additionalProperties': False, 'description': 'The parent of the comment'}, 'rich_text': {'type': 'array', 'description': 'The content of the comment'}}, 'required': ['parent', 'rich_text'], 'additionalProperties': False, '$schema': 'http://json-schema.org/draft-07/schema#'}
+```
+
+Read more: [Client Config Examples](client-config-example.md)
 
 ## References
 
