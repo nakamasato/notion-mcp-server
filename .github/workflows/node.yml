@@ -10,7 +10,7 @@ on:
 
 env:
   REGISTRY: docker.io
-  IMAGE_NAME: ${{ github.repository }}${{ github.event_name == 'release' && '' || '-dev' }} # notion-mcp-server or notion-mcp-server-dev
+  IMAGE_NAME: ${{ github.event_name == 'release' && github.repository || format('{0}-dev', github.repository) }} # notion-mcp-server or notion-mcp-server-dev
 
 jobs:
   lint:
