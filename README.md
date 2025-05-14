@@ -10,13 +10,58 @@ This project implements a Model Context Protocol (MCP) server for the Notion API
 - Provides access to Notion API functionality through MCP tools
 - Compatible with Claude, Cursor, and other MCP clients
 
-## Prerequisites
+**Available Tools**: The server exposes the following Notion API capabilities as MCP tools:
+
+- `notion_retrieve_page`: Retrieve a Notion page by ID
+- `notion_search`: Search for pages in Notion
+- `notion_create_page`: Create a new page in Notion
+- `notion_update_page`: Update an existing page in Notion
+- `notion_create_comment`: Create a comment on a page or block
+
+## Usage
+
+### Using Docker Image
+
+You can quickly get started with the pre-built Docker image:
+
+1. Create an `.env` file with your Notion credentials:
+   ```
+   NOTION_TOKEN=your_notion_integration_token
+   NOTION_VERSION=2022-06-28
+   ```
+
+2. Run the Docker container:
+   ```bash
+   docker run -p 3000:3000 --env-file .env nakamasato/notion-mcp-server:0.1.0
+   ```
+
+3. Configure your MCP client to connect to the server:
+
+   Example: **Cursor AI**:
+
+   ```json
+   {
+      "mcpServers": {
+        "notion": {
+            "url": "http://localhost:3000/sse"
+        }
+      }
+   }
+   ```
+
+   ![](docs/cursor-mcp.png)
+
+   For more detailed configuration instructions for Claude Desktop, Zed, and other clients, see the [client-config-example.md](client-config-example.md) file.
+
+## Local Run
+
+### Prerequisite
 
 - Node.js 20 or higher
 - A Notion integration token (get one from [Notion Integrations](https://www.notion.so/profile/integrations))
 - Pages or databases shared with your Notion integration
 
-## Installation
+### Installation
 
 1. Clone this repository:
    ```bash
@@ -35,7 +80,7 @@ This project implements a Model Context Protocol (MCP) server for the Notion API
    export NOTION_VERSION="2022-06-28"
    ```
 
-## Running the Server
+### Running the Server
 
 For development with auto-reload:
 ```bash
@@ -62,16 +107,6 @@ docker compose down
 ```
 
 The server will automatically restart unless explicitly stopped.
-
-## Available Tools
-
-The server exposes the following Notion API capabilities as MCP tools:
-
-- `notion_retrieve_page`: Retrieve a Notion page by ID
-- `notion_search`: Search for pages in Notion
-- `notion_create_page`: Create a new page in Notion
-- `notion_update_page`: Update an existing page in Notion
-- `notion_create_comment`: Create a comment on a page or block
 
 
 ## Client Configuration
